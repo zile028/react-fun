@@ -8,6 +8,7 @@ function Navigation() {
         <ul>
             <li><NavLink to={"/"}>Home</NavLink></li>
             <li><NavLink to={"/memory"}>Memory</NavLink></li>
+            <li><NavLink to={"/rolldice"}>RollDice</NavLink></li>
         </ul>
     </nav>
   )

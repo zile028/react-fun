@@ -4,12 +4,12 @@
   align-items: center;
 
   &-board {
-    width: 80vmin;
-    height: 80vmin;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
+    width: 50vmin;
+    height: 50vmin;
     // box-shadow: 0 0 8px gray;
   }
   .box {
