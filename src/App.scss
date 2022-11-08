@@ -1,0 +1,15 @@
+main {
+  display: grid;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  grid-template-columns: auto 1fr;
+  padding: 20px 0;
+  gap: 20px;
+  height: 100vh;
+}
+section {
+  box-shadow: 0 0 3px gray;
+  border-radius: 5px;
+  padding: 20px;
+}

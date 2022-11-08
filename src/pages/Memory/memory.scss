@@ -1,0 +1,18 @@
+.memory {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-board {
+    width: 80vmin;
+    height: 80vmin;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    // box-shadow: 0 0 8px gray;
+  }
+  .box {
+    box-shadow: 0 0 3px gray;
+  }
+}

@@ -1,0 +1,19 @@
+.navbar {
+  ul {
+    li {
+      box-shadow: 0 0 3px gray inset;
+      border-radius: 5px;
+      transition: 0.4s ease;
+      &:hover {
+        background-color: lightgray;
+      }
+      a {
+        padding: 10px;
+        display: block;
+      }
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
