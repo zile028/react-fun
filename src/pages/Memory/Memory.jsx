@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import Utility from "../../services/utility";
 import "./memory.scss";
 import icons from "./icons";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 // const icons = [
 //   "https://cdn.icon-icons.com/icons2/1715/PNG/96/2730388-character-choper-cute-fun-inkcontober-shy-smile_112682.png",
@@ -14,69 +16,83 @@ import icons from "./icons";
 //   "https://cdn.icon-icons.com/icons2/1715/PNG/96/2730386-character-cloud-inkcontober-rain_112687.png",
 // ];
 
+
 function Memory() {
-  const [combination, setCombination] = useState([]);
-  const [choosenBox, setChoosenBox] = useState([]);
-  const [choosenIcon, setChoosenIcon] = useState([]);
-  const boxRef = useRef([]);
+	const [combination, setCombination] = useState([]);
+	const [chooseBox, setChooseBox] = useState([]);
+	const [chooseIcon, setChooseIcon] = useState([]);
+	const [styleBoard, setStyleBoard] = useState({})
+	const boxRef = useRef([]);
+	useEffect(() => {
+		setCombination(Utility.randomize([...icons, ...icons]));
+		setStyleBoard({
+			gridTemplateColumns: `repeat(${icons.length / 2},1fr)`,
+			gridTemplateRows: `repeat(${icons.length / 2},1fr)`,
+		})
+	}, []);
 
-  useEffect(() => {
-    setCombination(Utility.randomize([...icons, ...icons]));
-  }, []);
+	useEffect(() => {
+		let timer = null;
+		if (chooseBox.length === 2) {
+			if (chooseIcon[0] === chooseIcon[1]) {
+				stayOpened()
+				toast("Correct")
+				setChooseBox([]);
+				setChooseIcon([]);
+			} else {
+				timer = setTimeout(() => {
+					chooseBox.forEach((el) => {
+						el.classList.remove("flipped");
+						setChooseBox([]);
+						setChooseIcon([]);
+					});
+				}, 1000);
+			}
+		}
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [chooseBox, chooseIcon]);
 
-  useEffect(() => {
-    let timer = null;
-    if (choosenBox.length === 2) {
-      if (choosenIcon[0] === choosenIcon[1]) {
-        console.log("Correct");
-      }
+	const stayOpened = () => {
+		chooseBox[0].classList.add("found")
+		chooseBox[1].classList.add("found")
+	}
 
-      timer = setTimeout(() => {
-        choosenBox.forEach((el) => {
-          el.classList.remove("flipped");
-          setChoosenBox([]);
-          setChoosenIcon([]);
-        });
-      }, 2000);
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [choosenBox, choosenIcon]);
 
-  const onclickHandler = (e, icon, index) => {
-    console.log(boxRef[index].current);
-    let currentBox = e.currentTarget;
-    if (choosenBox.length < 2 && choosenBox.indexOf(currentBox)) {
-      currentBox.classList.add("flipped");
-      setChoosenIcon([...choosenIcon, icon]);
-      setChoosenBox([...choosenBox, currentBox]);
-    }
-  };
+	const onclickHandler = (e, icon, index) => {
+		let currentBox = e.currentTarget;
+		if (chooseBox.length < 2 && chooseBox.indexOf(currentBox)) {
+			currentBox.classList.add("flipped");
+			setChooseIcon([...chooseIcon, icon]);
+			setChooseBox([...chooseBox, currentBox]);
+		}
+	};
 
-  const renderBoxes = () => {
-    return combination.map((el, index) => {
-      return (
-        <div
-          ref={(el) => (boxRef.current[index] = el)}
-          className="box"
-          key={index}
-          onClick={(e) => onclickHandler(e, el, index)}
-        >
-          <div className="front">&copy;</div>
-          <div className="back">
-            <img src={el} alt="" />
-          </div>
-        </div>
-      );
-    });
-  };
+	const renderBoxes = () => {
+		return combination.map((el, index) => {
+			return (
+			  <div
+				ref={(el) => (boxRef.current[index] = el)}
+				className="box"
+				key={index}
+				onClick={(e) => onclickHandler(e, el, index)}
+			  >
+				  <div className="front">&copy;</div>
+				  <div className="back">
+					  <img src={el} alt=""/>
+				  </div>
+			  </div>
+			);
+		});
+	};
 
-  return (
-    <section className="memory">
-      <div className="memory-board">{renderBoxes()}</div>
-    </section>
-  );
+	return (
+	  <section className="memory">
+		  <div className="memory-board" style={styleBoard}>{renderBoxes()}</div>
+		  <ToastContainer position={"top-center"} autoClose={1000}/>
+	  </section>
+	);
 }
 
 export default Memory;

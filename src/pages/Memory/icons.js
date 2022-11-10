@@ -8,4 +8,5 @@ import sonic from "./icons/sonic.png";
 import wolf from "./icons/wolf.png";
 
 const icons = [animal, fox, mask, pakko, rain, smile, sonic, wolf];
+// const icons = [animal, fox];
 export default icons;
