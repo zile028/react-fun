@@ -5,8 +5,8 @@
 
   &-board {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     gap: 10px;
     width: 50vmin;
     height: 50vmin;
@@ -14,5 +14,31 @@
   }
   .box {
     box-shadow: 0 0 3px gray;
+    position: relative;
+    cursor: pointer;
+    &.flipped {
+      .front {
+        transform: rotateY(180deg);
+      }
+      .back {
+        transform: rotateY(0deg);
+      }
+    }
+  }
+  %frontBack {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    transition: 0.4s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .front {
+    @extend %frontBack;
+  }
+  .back {
+    @extend %frontBack;
+    transform: rotateY(180deg);
   }
 }
